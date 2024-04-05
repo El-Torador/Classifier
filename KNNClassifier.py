@@ -1,13 +1,9 @@
 from collections import Counter
-from Classifier import Classifier
+from KNN import KNN
 from Distance import Distance
 from data import Data
 
-class KNNClassifier(Classifier):
-    def __init__(self, k, distance: Distance):
-        self.k = k
-        self.distance = distance
-        self.training_data = []
+class KNNClassifier(KNN):
 
     def train(self, training_data: list[Data]):
         self.training_data = training_data
@@ -16,7 +12,7 @@ class KNNClassifier(Classifier):
         predictions = []
         for test_instance in test_data:
             # Calcul des distances entre la donnée de test et toutes les données d'entraînement
-            distances = [(train_instance, self.distance.compute(test_instance, train_instance)) for train_instance in self.training_data]
+            distances = self.calc_distance(test_instance)
             
             # Tri des distances par ordre croissant
             distances.sort(key=lambda x: x[1])
